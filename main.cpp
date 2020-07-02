@@ -4,66 +4,26 @@
 
 #include<gl\glut.h>
 #include <math.h>
+#include <cstdlib>
 #include "Ball.h"
 #include "Vars.h"
-
-
-
-
-//реализаци€ движени€, определ€ем функцию move() вне класса Ball
-void Ball::move()
-{
-	y += dy;
-	if(x-r <= 0)
-	{
-		x = r;
-		dx *= -1;
-	}
-	else if(y-r <= 0)
-	{
-		y = r;
-		dy *= -1;
-	}
-	else if(x+r >= 300)
-	{
-		x = 300-r;
-		dx *= -1;
-	}
-	else if(y+r >= r_y && y+r <= r_y+r_h && x > r_x && x < r_x+r_w)
-	{
-		dy *= -1;
-	}
-	else if(y > 300)
-		active = false;
-}
+#include "ball_move.h"
 
 //размеры пол€
 int const width = 300;
 int const height = 300;
 
-//координаты и размеры платформы
-float r_x = 50.0, r_y = 290.0, r_w = 80, r_h = 8.0;
-
-
-//создан объект класса Ball с позицией по y и радиусом 8
-Ball ball(r_y, 6);
-
+float r_x = 110.0, r_y = 280.0, r_w = 80, r_h = 10.0; //координаты и размеры платформы
+Ball ball(r_y, 8); //создан объект класса Ball с позицией по y и радиусом 
 
 void Draw()
 {
-	//
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);		
+	glColor3f(1.0, 1.0, 1.0);  //цвет платформы	
+	glRectf(r_x, r_y, r_x+r_w, r_y+r_h); //рисуем пр€моугольник (платформу)
+	glColor3f(1.0, 0.0, 0.0);  //цвет м€ча
 	
-	//цвет платформы	
-	glColor3f(0.0, 0.0, 1.0);
-	
-	//рисуем пр€моугольник (платформу)
-	glRectf(r_x, r_y, r_x+r_w, r_y+r_h);
-	
-	//цвет м€ча
-	glColor3f(1.0, 0.0, 0.0);
-	
-	//определ€ет границы, внутри которых заданы вершины примитива
+	//определ€ем границы, внутри которых заданы вершины примитива
 	glBegin(GL_POLYGON);
 		for(float i = 0; i < 2*3.14; i += 3.14/4)
 		{
@@ -72,8 +32,7 @@ void Draw()
 		}
 	glEnd();
 	
-	//дл€ глут дабл
-	glutSwapBuffers();
+	glutSwapBuffers(); //дл€ глут дабл
 }
 
 void Timer(int)
@@ -86,7 +45,6 @@ void Timer(int)
 }
 
 
-
 void Keyboard(unsigned char key, int x, int y)
 {
 	
@@ -95,15 +53,8 @@ void Keyboard(unsigned char key, int x, int y)
 		case 'a':
 		{
 			if (r_x >= 0){
-				--r_x;
-				--r_x;
-				--r_x;
-				--r_x;
-				--r_x;
-				--r_x;	
-				--r_x;
-				--r_x;
-				--r_x;
+				for (int i = 0; i < 10; i++)
+					--r_x;
 				break;
 			}
 			else break;
@@ -111,15 +62,8 @@ void Keyboard(unsigned char key, int x, int y)
 		case 'd':
 		{
 			if (r_x <= 220){
-				++r_x;
-				++r_x;
-				++r_x;
-				++r_x;
-				++r_x;
-				++r_x;
-				++r_x;
-				++r_x;
-				++r_x;
+				for (int i = 0; i < 10; i++)
+					++r_x;
 				break;
 			}
 			else break;
@@ -127,24 +71,59 @@ void Keyboard(unsigned char key, int x, int y)
 	    case 's':
 	    	if(!ball.active){
 	    		ball.active = true;
-	    		ball.dx = 4;
-				ball.dy = -4;
+	    		ball.dx = 7;
+				ball.dy = -7;
 			}
 	}	
 
 	if (!ball.active)
 	{
-		ball.x = width/2;
+		ball.x = rand() % width;
 		ball.y = ball.r;
 	}
   		
 }
 
+void SKeyboard(int key, int x, int y)
+{
+		switch(key)
+	{
+		case GLUT_KEY_LEFT:
+		{
+			if (r_x >= 0){
+				for (int i = 0; i < 10; i++)
+					--r_x;
+				break;
+			}
+			else break;
+		}
+		case GLUT_KEY_RIGHT:
+		{
+			if (r_x <= 220){
+				for (int i = 0; i < 10; i++)
+					++r_x;
+				break;
+			}
+			else break;
+	    }
+	    case GLUT_KEY_DOWN:
+	    	if(!ball.active){
+	    		ball.active = true;
+	    		ball.dx = 7;
+				ball.dy = -7;
+			}
+	}	
+	if (!ball.active)
+	{
+		ball.x = rand() % width;
+		ball.y = ball.r;
+	}  		
+}
 
 void Initialize()
 {	
 	//задаем цвет пол€
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(0.3, 0.2, 0.4, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glOrtho(0, width, height, 0, 1.0, 0.0);
 }
@@ -153,35 +132,16 @@ int main(int argc, char** argv)
 	//argc - кол-во аргументов в командной строке
 	//argv - описание в виде указателей на ссылку
 {
-	//глобальна€ инициализаци€
-	glutInit(&argc, argv);
-	
-	//сообщаем как будем рисовать, GLUT_DOUBLE - используем буфер рисовани€ и буфер вычислени€ GLUT_RGB - цвета опираютс€ на RGB
-	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
-	
-	//инициализаци€ размеров окна
-	glutInitWindowSize(width, height);
-	
-	//инициализаци€ позиции окна
-	glutInitWindowPosition(100, 200);
-	
-	//создание окна
-	glutCreateWindow("Arkanoid 2D");
-	
-	//рисование
-	glutDisplayFunc(Draw);
-
+	glutInit(&argc, argv); 	//глобальна€ инициализаци€	
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB); //сообщаем как будем рисовать, GLUT_DOUBLE - используем буфер рисовани€ и буфер вычислени€ GLUT_RGB - цвета опираютс€ на RGB
+	glutInitWindowSize(width, height); //инициализаци€ размеров окна	
+	glutInitWindowPosition(100, 200); 	//инициализаци€ позиции окна
+	glutCreateWindow("Arkanoid 2D"); //создание окна
+	glutDisplayFunc(Draw); //рисование
 	glutTimerFunc(33, Timer, 0);
 	glutKeyboardFunc(Keyboard);
-	
-	
-	
-	//инициализаци€
-	Initialize();
-	
-	//главный цикл
-	glutMainLoop();
+	glutSpecialFunc(SKeyboard);
+	Initialize(); //инициализаци€
+	glutMainLoop();  //главный цикл
 	return 0;
 }
-
-
