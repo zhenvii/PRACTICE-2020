@@ -1,6 +1,6 @@
 #pragma once
-#include "Ball.h"
-#include "Vars.h"
+#include "ball.h"
+#include "vars.h"
 
 //реализация движения, определяем функцию move() вне класса Ball
 void Ball::move()
