@@ -1,43 +1,43 @@
-// Проект по теме: "2D робот" 
-// группы "Успеть за 5 дней!!!! Пока есть подписка на VPN!!!!!!!!!!"
-// Вариант 2
+// ГЏГ°Г®ГҐГЄГІ ГЇГ® ГІГҐГ¬ГҐ: "2D Г°Г®ГЎГ®ГІ" 
+// ГЈГ°ГіГЇГЇГ» "Г“Г±ГЇГҐГІГј Г§Г  5 Г¤Г­ГҐГ©!!!! ГЏГ®ГЄГ  ГҐГ±ГІГј ГЇГ®Г¤ГЇГЁГ±ГЄГ  Г­Г  VPN!!!!!!!!!!"
+// Г‚Г Г°ГЁГ Г­ГІ 2
 
 #include<gl\glut.h>
 #include <math.h>
 #include <cstdlib>
-#include "Ball.h"
-#include "Vars.h"
-#include "ball_move.h"
+#include "ball.h"
+#include "vars.h"
 
-//размеры поля
+
+//Г°Г Г§Г¬ГҐГ°Г» ГЇГ®Г«Гї
 int const width = 300;
 int const height = 300;
 
-float r_x = 110.0, r_y = 280.0, r_w = 80, r_h = 10.0; //координаты и размеры платформы
-Ball ball(r_y, 8); //создан объект класса Ball с позицией по y и радиусом 
+float r_x = 110.0, r_y = 280.0, r_w = 80, r_h = 10.0; //ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГЁ Г°Г Г§Г¬ГҐГ°Г» ГЇГ«Г ГІГґГ®Г°Г¬Г»
+Ball ball(r_y, 8); //Г±Г®Г§Г¤Г Г­ Г®ГЎГєГҐГЄГІ ГЄГ«Г Г±Г±Г  Ball Г± ГЇГ®Г§ГЁГ¶ГЁГҐГ© ГЇГ® y ГЁ Г°Г Г¤ГЁГіГ±Г®Г¬ 
 
 void Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT);		
-	glColor3f(1.0, 1.0, 1.0);  //цвет платформы	
-	glRectf(r_x, r_y, r_x+r_w, r_y+r_h); //рисуем прямоугольник (платформу)
-	glColor3f(1.0, 0.0, 0.0);  //цвет мяча
+	glColor3f(1.0, 1.0, 1.0);  //Г¶ГўГҐГІ ГЇГ«Г ГІГґГ®Г°Г¬Г»	
+	glRectf(r_x, r_y, r_x+r_w, r_y+r_h); //Г°ГЁГ±ГіГҐГ¬ ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄ (ГЇГ«Г ГІГґГ®Г°Г¬Гі)
+	glColor3f(1.0, 0.0, 0.0);  //Г¶ГўГҐГІ Г¬ГїГ·Г 
 	
-	//определяем границы, внутри которых заданы вершины примитива
+	//Г®ГЇГ°ГҐГ¤ГҐГ«ГїГҐГ¬ ГЈГ°Г Г­ГЁГ¶Г», ГўГ­ГіГІГ°ГЁ ГЄГ®ГІГ®Г°Г»Гµ Г§Г Г¤Г Г­Г» ГўГҐГ°ГёГЁГ­Г» ГЇГ°ГЁГ¬ГЁГІГЁГўГ 
 	glBegin(GL_POLYGON);
 		for(float i = 0; i < 2*3.14; i += 3.14/4)
 		{
-			//рисуем мяч
+			//Г°ГЁГ±ГіГҐГ¬ Г¬ГїГ·
 			glVertex2f(ball.x+ball.r*sin(i), ball.y+ball.r*cos(i));
 		}
 	glEnd();
 	
-	glutSwapBuffers(); //для глут дабл
+	glutSwapBuffers(); //Г¤Г«Гї ГЈГ«ГіГІ Г¤Г ГЎГ«
 }
 
 void Timer(int)
 {
-	//рисуем картинку в каждый момент времени
+	//Г°ГЁГ±ГіГҐГ¬ ГЄГ Г°ГІГЁГ­ГЄГі Гў ГЄГ Г¦Г¤Г»Г© Г¬Г®Г¬ГҐГ­ГІ ГўГ°ГҐГ¬ГҐГ­ГЁ
 	Draw();
 	if(ball.active)
 		ball.move();
@@ -122,26 +122,26 @@ void SKeyboard(int key, int x, int y)
 
 void Initialize()
 {	
-	//задаем цвет поля
+	//Г§Г Г¤Г ГҐГ¬ Г¶ГўГҐГІ ГЇГ®Г«Гї
 	glClearColor(0.3, 0.2, 0.4, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glOrtho(0, width, height, 0, 1.0, 0.0);
 }
 
 int main(int argc, char** argv)
-	//argc - кол-во аргументов в командной строке
-	//argv - описание в виде указателей на ссылку
+	//argc - ГЄГ®Г«-ГўГ® Г Г°ГЈГіГ¬ГҐГ­ГІГ®Гў Гў ГЄГ®Г¬Г Г­Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ
+	//argv - Г®ГЇГЁГ±Г Г­ГЁГҐ Гў ГўГЁГ¤ГҐ ГіГЄГ Г§Г ГІГҐГ«ГҐГ© Г­Г  Г±Г±Г»Г«ГЄГі
 {
-	glutInit(&argc, argv); 	//глобальная инициализация	
-	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB); //сообщаем как будем рисовать, GLUT_DOUBLE - используем буфер рисования и буфер вычисления GLUT_RGB - цвета опираются на RGB
-	glutInitWindowSize(width, height); //инициализация размеров окна	
-	glutInitWindowPosition(100, 200); 	//инициализация позиции окна
-	glutCreateWindow("Arkanoid 2D"); //создание окна
-	glutDisplayFunc(Draw); //рисование
+	glutInit(&argc, argv); 	//ГЈГ«Г®ГЎГ Г«ГјГ­Г Гї ГЁГ­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї	
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB); //Г±Г®Г®ГЎГ№Г ГҐГ¬ ГЄГ ГЄ ГЎГіГ¤ГҐГ¬ Г°ГЁГ±Г®ГўГ ГІГј, GLUT_DOUBLE - ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬ ГЎГіГґГҐГ° Г°ГЁГ±Г®ГўГ Г­ГЁГї ГЁ ГЎГіГґГҐГ° ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГї GLUT_RGB - Г¶ГўГҐГІГ  Г®ГЇГЁГ°Г ГѕГІГ±Гї Г­Г  RGB
+	glutInitWindowSize(width, height); //ГЁГ­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї Г°Г Г§Г¬ГҐГ°Г®Гў Г®ГЄГ­Г 	
+	glutInitWindowPosition(100, 200); 	//ГЁГ­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї ГЇГ®Г§ГЁГ¶ГЁГЁ Г®ГЄГ­Г 
+	glutCreateWindow("Arkanoid 2D"); //Г±Г®Г§Г¤Г Г­ГЁГҐ Г®ГЄГ­Г 
+	glutDisplayFunc(Draw); //Г°ГЁГ±Г®ГўГ Г­ГЁГҐ
 	glutTimerFunc(33, Timer, 0);
 	glutKeyboardFunc(Keyboard);
 	glutSpecialFunc(SKeyboard);
-	Initialize(); //инициализация
-	glutMainLoop();  //главный цикл
+	Initialize(); //ГЁГ­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї
+	glutMainLoop();  //ГЈГ«Г ГўГ­Г»Г© Г¶ГЁГЄГ«
 	return 0;
 }
