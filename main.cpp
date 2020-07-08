@@ -34,14 +34,41 @@ void Draw()
 	glutSwapBuffers(); 
 }
 
+
+
+void Bot()
+{
+	//If the unit is equipped with x, the unit is equipped with a box for completing the process 
+	if (ball.active)
+	{
+	if (r_x <= 220)	
+		if (ball.x > r_x)
+			r_x = r_x+10;
+				
+	
+	if (r_x >= 0)
+		if (ball.x < r_x)
+				r_x = r_x-10;			
+	}
+}
+
+
+
 void Timer(int)
 {
 	//draw picture at every moment in time
 	Draw();
-	if(ball.active)
+	
+	if(ball.active){
+		Bot();
 		ball.move();
+		
+	}	
 	glutTimerFunc(33, Timer, 0);
 }
+
+
+
 
 
 void Keyboard(unsigned char key, int x, int y)
@@ -70,8 +97,8 @@ void Keyboard(unsigned char key, int x, int y)
 	    case 's':
 	    	if(!ball.active){
 	    		ball.active = true;
-	    		ball.dx = 7;
-				ball.dy = -7;
+	    		ball.dx = 6;
+				ball.dy = -6;
 			}
 	}	
 
@@ -118,6 +145,7 @@ void SKeyboard(int key, int x, int y)
 		ball.y = ball.r;
 	}  		
 }
+
 
 void Initialize()
 {	
