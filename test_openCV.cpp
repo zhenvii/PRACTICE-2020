@@ -1,4 +1,4 @@
-﻿
+//неудачный тест openCV
 #include <cv.h>
 #include <highgui.h>
 #include <stdlib.h>
